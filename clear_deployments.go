@@ -90,13 +90,6 @@ type Deployment struct {
 }
 
 type DeploymentsResponse struct {
-	Success    bool `json:"success"`
-	ResultInfo struct {
-		Page       int `json:"page"`
-		PerPage    int `json:"per_page"`
-		Count      int `json:"count"`
-		TotalCount int `json:"total_count"`
-	} `json:"result_info"`
 	Result []Deployment `json:"result"`
 }
 
@@ -128,4 +121,27 @@ func (cf *CFPagesUploader) DeleteAllButLatestDeployment() {
 			}
 		}
 	}
+}
+
+func sendGetAllDeployments() (*http.Response, error) {
+	// get all deployments (GET https://api.cloudflare.com/client/v4/accounts/887ebfb71fdc5f2a59d20ab48eb4c9b2/pages/projects/kite-cms/deployments)
+
+	// Create client
+	client := &http.Client{}
+
+	// Create request
+	req, err := http.NewRequest("GET", "https://api.cloudflare.com/client/v4/accounts/887ebfb71fdc5f2a59d20ab48eb4c9b2/pages/projects/kite-cms/deployments", nil)
+
+	// Headers
+	req.Header.Add("Authorization", "Bearer JLM65BNN3hr-kCn2IIn8l3a3_aD69DZlWqkZP-gn")
+	req.Header.Add("Cookie", "__cflb=0H28vgHxwvgAQtjUGUFqYFDiSDreGJnUkHa3tUqP6Lu; __cfruid=97df13ffd48ac88340fd2be3699cc69319a984b3-1683567202")
+
+	// Fetch Request
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to send request: %v", err)
+	}
+
+	return resp, nil
 }
