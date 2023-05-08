@@ -41,7 +41,7 @@ func (cf *CFPagesUploader) GetAllDeployments() ([]Deployment, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	fmt.Printf("deploymentsResp: %+v\n", deploymentsResp)
 	return deploymentsResp.Result, nil
 }
 
